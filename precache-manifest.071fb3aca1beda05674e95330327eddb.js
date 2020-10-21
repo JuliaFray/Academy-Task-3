@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a1a323fe0a2e3968d3eb1fc518b112c7",
+    "revision": "518ea56f0446014144265214e86b21d6",
     "url": "/JuliaFray/Academy-Task-3/index.html"
   },
   {
-    "revision": "192cea7315c0190ccc9d",
+    "revision": "ffb31bf3a4c182b80a54",
     "url": "/JuliaFray/Academy-Task-3/static/css/main.8c7fc1cb.chunk.css"
   },
   {
-    "revision": "043a53b68a06c96f308e",
-    "url": "/JuliaFray/Academy-Task-3/static/js/2.64ae55fc.chunk.js"
+    "revision": "ac2bb8722c8929ff6854",
+    "url": "/JuliaFray/Academy-Task-3/static/js/2.37a9ad99.chunk.js"
   },
   {
     "revision": "c87550333da8df8ab4c80bd1d6e9defb",
-    "url": "/JuliaFray/Academy-Task-3/static/js/2.64ae55fc.chunk.js.LICENSE.txt"
+    "url": "/JuliaFray/Academy-Task-3/static/js/2.37a9ad99.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "192cea7315c0190ccc9d",
-    "url": "/JuliaFray/Academy-Task-3/static/js/main.37fe5d1e.chunk.js"
+    "revision": "ffb31bf3a4c182b80a54",
+    "url": "/JuliaFray/Academy-Task-3/static/js/main.99e9135d.chunk.js"
   },
   {
     "revision": "bf7c827056e40dfac876",
