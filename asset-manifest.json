@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/JuliaFray/Academy-Task-3/static/css/main.8c7fc1cb.chunk.css",
-    "main.js": "/JuliaFray/Academy-Task-3/static/js/main.99e9135d.chunk.js",
-    "main.js.map": "/JuliaFray/Academy-Task-3/static/js/main.99e9135d.chunk.js.map",
-    "runtime-main.js": "/JuliaFray/Academy-Task-3/static/js/runtime-main.e2be3ce7.js",
-    "runtime-main.js.map": "/JuliaFray/Academy-Task-3/static/js/runtime-main.e2be3ce7.js.map",
-    "static/js/2.37a9ad99.chunk.js": "/JuliaFray/Academy-Task-3/static/js/2.37a9ad99.chunk.js",
-    "static/js/2.37a9ad99.chunk.js.map": "/JuliaFray/Academy-Task-3/static/js/2.37a9ad99.chunk.js.map",
-    "index.html": "/JuliaFray/Academy-Task-3/index.html",
-    "precache-manifest.071fb3aca1beda05674e95330327eddb.js": "/JuliaFray/Academy-Task-3/precache-manifest.071fb3aca1beda05674e95330327eddb.js",
-    "service-worker.js": "/JuliaFray/Academy-Task-3/service-worker.js",
-    "static/css/main.8c7fc1cb.chunk.css.map": "/JuliaFray/Academy-Task-3/static/css/main.8c7fc1cb.chunk.css.map",
-    "static/js/2.37a9ad99.chunk.js.LICENSE.txt": "/JuliaFray/Academy-Task-3/static/js/2.37a9ad99.chunk.js.LICENSE.txt"
+    "main.css": "/Academy-Task-3/static/css/main.8c7fc1cb.chunk.css",
+    "main.js": "/Academy-Task-3/static/js/main.1e4edb95.chunk.js",
+    "main.js.map": "/Academy-Task-3/static/js/main.1e4edb95.chunk.js.map",
+    "runtime-main.js": "/Academy-Task-3/static/js/runtime-main.e62b4812.js",
+    "runtime-main.js.map": "/Academy-Task-3/static/js/runtime-main.e62b4812.js.map",
+    "static/js/2.37a9ad99.chunk.js": "/Academy-Task-3/static/js/2.37a9ad99.chunk.js",
+    "static/js/2.37a9ad99.chunk.js.map": "/Academy-Task-3/static/js/2.37a9ad99.chunk.js.map",
+    "index.html": "/Academy-Task-3/index.html",
+    "precache-manifest.454a8191d32847901d4c2a21d3fc230d.js": "/Academy-Task-3/precache-manifest.454a8191d32847901d4c2a21d3fc230d.js",
+    "service-worker.js": "/Academy-Task-3/service-worker.js",
+    "static/css/main.8c7fc1cb.chunk.css.map": "/Academy-Task-3/static/css/main.8c7fc1cb.chunk.css.map",
+    "static/js/2.37a9ad99.chunk.js.LICENSE.txt": "/Academy-Task-3/static/js/2.37a9ad99.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.e2be3ce7.js",
+    "static/js/runtime-main.e62b4812.js",
     "static/js/2.37a9ad99.chunk.js",
     "static/css/main.8c7fc1cb.chunk.css",
-    "static/js/main.99e9135d.chunk.js"
+    "static/js/main.1e4edb95.chunk.js"
   ]
 }
