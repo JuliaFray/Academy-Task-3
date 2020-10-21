@@ -1,0 +1,18 @@
+.form {
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+}
+
+.text {
+    width: 70%;
+    height: 50px;
+}
+
+.select {
+    width: 10%;
+};
+
+.btn {
+    width: 20%
+}
