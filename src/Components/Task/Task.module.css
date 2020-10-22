@@ -1,5 +1,5 @@
 .task {
-    width: 95%;
+    width: 100%;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -11,31 +11,38 @@
     display: flex
 }
 
-.status {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #333;
-}
-
-.collection {
-    width: 100px;
-    height: 50px;
-    border: 1px solid #333;
-}
-
-.control {
-    display: flex;
-
-}
-
 .deleteBtn {
-    width: 100px;
-    height: 50px;
-    border: 1px solid red
+    width: 70px;
+    height: 40px;
+    background-color: red;
+    color: #fff
 }
 
-.collectionBtn {
-    width: 100px;
-    height: 50px;
-    border: 1px solid yellow
+.checkBtn {
+    width: 70px;
+    height: 40px;
+    background-color: green;
+    color: #fff
+}
+
+.text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.high {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.medium {
+    background-color: rgba(255, 255, 0, 0.2);
+}
+
+.low {
+    background-color: rgba(0, 128, 0, 0.2);
+}
+
+.done {
+    background-color: rgba(51, 51, 51, 0.2);
 }
