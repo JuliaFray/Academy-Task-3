@@ -7,9 +7,7 @@ const InputForm = (props) => {
 
     const onSubmit = (data) => {
         let newTask = {
-            taskText: data.taskText,
-            isNow: data.isNow,
-            done: 'false'
+            taskListName: data.taskText
         }
         props.useNewTask(newTask);
         setValue('taskText', '')
@@ -20,10 +18,7 @@ const InputForm = (props) => {
 
             <input className={css.text} name='taskText'
                 ref={register} placeholder={'enter your task'} />
-
-            <label for = 'isNow'>Срочность</label>
-            <input name = 'isNow' ref = {register} id = 'isNow' type = 'checkbox' />
-            
+                
             <input className={css.addBtn} value="ADD" type='submit'></input>
         </form>
     )

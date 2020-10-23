@@ -1,33 +1,38 @@
 import React from 'react';
-import css from './Task.module.css'
+import css from './Task.module.css';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
 
 const Task = (props) => {
 
-    if (props.task.done == 'false') {
-        if (props.task.priority == 'high') {
+    let task = props.task;
+
+    if (!task.isDone) {
+        if (task.isNow) {
             var style = css.high
-        } else if (props.task.priority == 'medium') {
-            var style = css.medium
-        } else {
+        } else if (!task.isNow) {
             var style = css.low
         }
     } else {
         var style = css.done
     }
 
-    
-
     function changeTask(task) {
-        task.done = 'true';
-        props.checkTask(props.task.id, props.task)
+        task.isDone = 'true';
+        props.checkTask(task.id, task)
+    };
+
+    const isAuth = useSelector(state => state.authPage.isAuth);
+    if (!isAuth) {
+        return <Redirect to = {'/login'} />
     }
 
     return (
         <div className={`${css.task} + ${style}`}>
-            <div className={css.text}>{props.task.taskText}</div>
+            <div className={css.text}>{task.taskName}</div>
 
-            {props.task.done == 'true'
-                    ? <button onClick = {() => props.deleteTask(props.task.id)} className={css.deleteBtn}>Delete</button>
+            {task.isDone
+                    ? <button onClick = {() => props.deleteTask(task.id)} className={css.deleteBtn}>Delete</button>
                     : <button onClick = {() => changeTask(props.task)} className={css.checkBtn}>Check done</button>}
         </div>
     )

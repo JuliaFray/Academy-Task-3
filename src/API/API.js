@@ -47,3 +47,89 @@ export const tasksAPI = {
         )
     }
 }
+
+
+export const listsAPI = {
+    getLists() {
+        return (
+            instance
+                .get(`taskList`)
+                .then(response => {
+                    if (response.status == '200') {
+                        return response.data
+                    } else if (response.status == '404') {
+                        console.log('404 Not Found')
+                    }
+                    
+                })
+        )
+    },
+
+    addLists(task) {
+        return (
+            instance
+                .post(`taskList`, task)
+                .then(response => {
+                    return response.data
+                })
+        )
+    },
+
+    changeLists(taskId, task) {
+        return (
+            instance
+                .patch(`taskList/${taskId}`, task)
+                .then(response => {
+                    return response.data
+                })
+        )
+    },
+
+    deleteLists(taskId) {
+        return (
+            instance
+                .delete(`taskList/${taskId}`)
+                .then(response => {
+                    // debugger
+                    return response.data
+                })
+        )
+    }
+};
+
+export const authAPI = {
+    me() {
+        return (
+            instance
+                .get(`auth`)
+                .then(response => {
+                    return response
+                })
+        )
+    }
+};
+
+export const logAPI = {
+    login(login, password, rememeberme) {
+        return (
+            instance
+                .post(`login`, {login, password, rememeberme })
+                .then(response => {
+                    if (response.resultCode === '200') {
+                        return response
+                    }
+                })
+        )
+    },
+
+    logout() {
+        return (
+            instance
+                .delete(`logout`)
+                .then(response => {
+                    debugger
+                    return response
+                })
+        )
+    }
+}

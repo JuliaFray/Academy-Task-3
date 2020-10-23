@@ -1,0 +1,43 @@
+.list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #333;
+    align-items: center;
+}
+
+.list:hover {
+    background-color: rgba(51, 51, 51, 0.1);
+    cursor: pointer
+}
+
+.link {
+    text-decoration: none;
+    color: #333;
+    width: 70%;
+    text-align: center;
+}
+
+.text {
+    width: 100%;
+}
+
+.btns {
+    width: 30%;
+    padding: 10px;
+    float: right
+}
+
+button {
+    margin-right: 20px;
+    background-color: rgba(51, 51, 51, 0.1);
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: #333;
+    color: #fff;
+}

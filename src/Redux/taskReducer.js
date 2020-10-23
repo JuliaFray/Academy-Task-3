@@ -1,24 +1,15 @@
 // API
 import { tasksAPI } from './../API/API';
+import * as firebase from 'firebase';
 
 // consts
 const SET_TASK = 'SET-TASK';
 const ADD_TASK = 'ADD-TASK';
 const UPDATE_TASK_TEXT = 'UPDATE-TASK-TEXT';
-const ADD_LIST = 'ADD-LIST';
 
 // initial state
 const initialState = {
     tasks: [
-        { id: 1, taskText: 'write 1 task', done: 'true', priority: 'high' },
-        { id: 2, taskText: 'check 1 task', done: 'false', priority: 'medium' }
-    ],
-
-    newTaskText: '',
-
-    lists: [
-        { id: 1, listText: 'first list' },
-        { id: 2, listText: 'second list' }
     ]
 };
 
@@ -27,16 +18,17 @@ const initialState = {
 const taskReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_TASK:
+            // debugger
             return {
                 ...state,
-                tasks: action.tasks
+                tasks: action.tasks.task
             }
         case ADD_TASK:
-            debugger
+            // debugger
             let newTask = {
                 id: 3,
-                taskText: action.newTaskText,
-                priority: action.priority
+                taskName: action.newTaskText,
+                isNow: action.isNow
             };
             return {
                 ...state,
@@ -48,16 +40,6 @@ const taskReducer = (state = initialState, action) => {
             return {
                 ...state,
                 newTaskText: action.newTaskText
-            }
-
-        case ADD_LIST:
-            let newList = {
-                id: 3,
-                listText: action.newListText
-            };
-            return {
-                ...state,
-                lists: [...state.lists, newList]
             }
 
         default:
@@ -74,22 +56,31 @@ export const updateTaskText = (newTaskText) => ({ type: UPDATE_TASK_TEXT, newTas
 
 
 // thunk creators
-export const getTasksTC = () => async (dispatch) => {
-    let response = await tasksAPI.getTasks();
-    dispatch(setTasks(response))
+export const getTasksTC = (listId) => async (dispatch) => {
+
+    const db = firebase.database().ref('taskList/');
+    db.on('value', (elem) => {
+        let response = elem.val();
+        let tasks = response[listId]
+        dispatch(setTasks(tasks))
+    })
+
+
+    // let response = await tasksAPI.getTasks();
+    // dispatch(setTasks(response))
 };
 
 export const deleteTasksTC = (id) => async (dispatch) => {
-    let response = await tasksAPI.deleteTasks(id);
+    await tasksAPI.deleteTasks(id);
     dispatch(getTasksTC());
 };
 
 export const checkTasksTC = (id, task) => async (dispatch) => {
-    let response = await tasksAPI.changeTasks(id, task);
+    await tasksAPI.changeTasks(id, task);
     dispatch(getTasksTC());
 };
 
 export const addTasksTC = (task) => async (dispatch) => {
-    let response = await tasksAPI.addTasks(task);
+    await tasksAPI.addTasks(task);
     dispatch(getTasksTC());
 };
