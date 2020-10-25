@@ -9,7 +9,7 @@ const InputForm = (props) => {
         let newTask = {
             taskText: data.taskText,
             isNow: data.isNow,
-            done: 'false'
+            isDone: 'false'
         }
         props.useNewTask(newTask);
         setValue('taskText', '')
@@ -23,8 +23,9 @@ const InputForm = (props) => {
 
             <label for = 'isNow'>Срочность</label>
             <input name = 'isNow' ref = {register} id = 'isNow' type = 'checkbox' />
-            
-            <input className={css.addBtn} value="ADD" type='submit'></input>
+
+            <input className={css.addBtn} type='submit' value='ADD' />
+
         </form>
     )
 };

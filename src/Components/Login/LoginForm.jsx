@@ -15,7 +15,7 @@ const showErrors = yup.object().shape({
 const LoginForm = () => {
 
     const isAuth = useSelector(state => state.authPage.isAuth);
-    console.log(isAuth)
+    // console.log(isAuth)
     
 
     const dispatch = useDispatch();

@@ -6,7 +6,7 @@ const SET_USER_DATA = 'SET-USER-DATA';
 
 //initial state
 let initialState = {
-    login: null,
+    login: '',
     isAuth: false
 };
 
@@ -14,6 +14,7 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
+            // debugger
             return {
                 ...state,
                 ...action.payload
@@ -32,23 +33,30 @@ export const setUserData = (login, isAuth) => ({
 });
 
 //thunk creators
-// export const authTC = (loginName) => async (dispatch) => {
-//     let response = await authAPI.me();
-//     let { login } = response.data.me;
-//     if (login == loginName) {
-//         dispatch(setUserData(login, true));
-//     } else {
-//         dispatch(setUserData(null, false));
-//     }
-// };
 
 export const loginTC = (login, password) => async (dispatch) => {
     firebase.auth().signInWithEmailAndPassword(login, password)
-        .catch(error => console.log(error));
-    dispatch(setUserData(login, true));
+        .catch(error => {
+            console.log(error)
+        });
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            console.log(user)
+            if (user) {
+                if (user.email == login) {
+                    dispatch(setUserData(login, true))
+                }
+            } else {
+                dispatch(setUserData('', false))
+            }
+        })
+
+    
 
 };
 
 export const logoutTC = () => async (dispatch) => {
-    dispatch(setUserData(null, false));
+    firebase.auth().signOut().then(function() {
+        dispatch(setUserData('', false));
+    })
 }

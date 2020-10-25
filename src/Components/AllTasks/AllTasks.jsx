@@ -31,34 +31,48 @@ const AllTasks = () => {
     }
 
     function useNewTask(task) {
-        dispatch(addTasksTC(task))
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        dispatch(addTasksTC(listId, task))
     }
 
     if (!isAuth) {
         return <Redirect to={'/login'} />
     }
+    let tasksArray = [];
+    if (tasks) {
+        tasksArray = Object.values(tasks);
+    } else {
+        tasksArray = []
+    };
+
+    console.log(tasksArray)
+
 
     return (
         <div className={css.allTasks} >
             <div className={css.header}>
-                {tasks
-                    ? <h2 className={css.headerText}>Active Tasks: {tasks.filter(task => !task.isDone).length}
-                        <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
-                    : <h2 className={css.headerText}>Подзадач нет<NavLink className={css.headerLink} to={'/taskList'}> back </NavLink></h2>
-
+                {tasksArray.length > 0
+                    ? <div>
+                        <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => !task.isDone).length}
+                            <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
+                        <div className={css.inputForm}>
+                            <InputForm useNewTask={useNewTask} />
+                        </div>
+                        <div className={css.tasks}>
+                            {tasksArray.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} />)}
+                        </div>
+                    </div>
+                    : <div>
+                        <h2 className={css.headerText}>Подзадач нет<NavLink className={css.headerLink} to={'/taskList'}> back </NavLink>
+                        </h2>
+                        <div className={css.inputForm}>
+                            <InputForm useNewTask={useNewTask} />
+                        </div>
+                    </div>
                 }
-
             </div>
-            <div className={css.inputForm}>
-                <InputForm useNewTask={useNewTask} />
-            </div>
-            <div className={css.tasks}>
-                {tasks
-                    ? tasks.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} />)
-                    : <p></p>}
-            </div>
-
-
         </div>
     )
 };

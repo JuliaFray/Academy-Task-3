@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import css from './InputForm.module.css';
+import css from './InputFormList.module.css';
 
 const InputForm = (props) => {
     const { register, handleSubmit, setValue } = useForm();
@@ -19,7 +19,7 @@ const InputForm = (props) => {
             <input className={css.text} name='taskText'
                 ref={register} placeholder={'enter your task'} />
                 
-            <input className={css.addBtn} value="ADD" type='submit'></input>
+            <input className={css.addBtn} value="ADD" type='submit' />
         </form>
     )
 };

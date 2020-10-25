@@ -1,43 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import InputFormList from '../InputFormList/InputFormList';
-import { deleteListsTC, getListsTC, updateListsTC, addListsTC } from './../../Redux/listReducer';
-import List from './../List/List';
-import css from './Lists.module.css';
 import { Redirect } from 'react-router';
+import InputFormList from '../InputFormList/InputFormList';
+import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listReducer';
+import css from './Lists.module.css';
+import List from './../List/List'
 
 
 const Lists = () => {
 
-    const isAuth = useSelector(state => state.authPage.isAuth);
     const lists = useSelector(state => state.listPage.lists);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getListsTC());
-    }, []);
-
-    function useDeleteList(id) {
-        dispatch(deleteListsTC(id))
-    };
-
-    function useUpdateList(list) {
-        dispatch(updateListsTC(list))
-    };
+    }, [lists.length]);
 
     function useNewList(list) {
         dispatch(addListsTC(list))
+    };
+
+    function useDeleteList(id) {
+        dispatch(deleteListsTC(id))
     }
+
+    function useUpdateList() { }
+
+
+    const isAuth = useSelector(state => state.authPage.isAuth);
 
     if (!isAuth) {
         return <Redirect to={'/login'} />
     }
-    // console.log(lists)
+
+    let listsArray = [];
+    listsArray = Object.values(lists);
 
     return (
         <div className={css.allTasks}>
             <div className={css.header}>
-                <h2 >Active Tasks</h2>
+                <h2 >All Tasks</h2>
             </div>
 
             <div className={css.inputForm}>
@@ -45,14 +47,14 @@ const Lists = () => {
             </div>
 
             <div className={css.tasks}>
-                {lists.length > 1
-                    ? lists.map(l => <List list={l} deleteList={useDeleteList} updateList={useUpdateList} />)
-                    : <List list={lists[0]} deleteList={useDeleteList} updateList={useUpdateList} />
+                {listsArray.length > 1
+                    ? listsArray.map(l => <List list={l} deleteList={useDeleteList} updateList={useUpdateList} />)
+                    : <List list={listsArray[0]} deleteList={useDeleteList} updateList={useUpdateList} />
                 }
             </div>
 
         </div>
     )
-};
+}
 
 export default Lists;

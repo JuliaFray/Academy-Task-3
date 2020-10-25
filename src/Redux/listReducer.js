@@ -1,6 +1,7 @@
 // API
 import { listsAPI } from '../API/API';
 import * as firebase from 'firebase';
+import { isAsyncValidating } from 'redux-form';
 
 // consts
 const SET_LIST = 'SET-LIST';
@@ -9,57 +10,7 @@ const UPDATE_LIST_TEXT = 'UPDATE-LIST-TEXT';
 
 // initial state
 const initialState = {
-    lists: [
-        {
-            id: 0, taskListName: "firstTaskList",
-            task: [
-                {
-                    id: 1,
-                    taskName: "write 1 task",
-                    isDone: "true",
-                    isNow: "high"
-                },
-
-                {
-                    taskName: "Chek all tasks",
-                    isNow: "high",
-                    isDone: "true",
-                    id: 2
-                },
-                {
-                    taskName: "repair task adding",
-                    isNow: "medium",
-                    isDone: "true",
-                    id: 3
-                },
-                {
-                    taskName: "clear input",
-                    isNow: "low",
-                    isDone: "true",
-                    id: 4
-                }
-            ]
-        },
-        {
-            id: 1, taskListName: "secondTaskList",
-            task: [
-                {
-                    id: 1,
-                    taskName: "write 1 task",
-                    isDone: "true",
-                    isNow: "high"
-                },
-                {
-                    taskName: "Chek all tasks",
-                    isNow: "high",
-                    isDone: "true",
-                    id: 2
-                }
-            ]
-        }
-    ],
-
-    newListText: ''
+    lists: [{}]
 };
 
 
@@ -67,28 +18,12 @@ const initialState = {
 const listReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_LIST:
+            // debugger
             return {
                 ...state,
                 lists: action.lists
             }
-        case ADD_LIST:
-            // debugger
-            let newList = {
-                id: 3,
-                listText: action.newListText
-            };
-            return {
-                ...state,
-                lists: [...state.lists, newList]
-            }
-
-        case UPDATE_LIST_TEXT:
-
-            return {
-                ...state,
-                newListText: action.newListText
-            }
-
+            
         default:
             return state;
     }
@@ -109,38 +44,26 @@ export const getListsTC = () => async (dispatch) => {
 };
 
 export const deleteListsTC = (id) => async (dispatch) => {
+    console.log(id)
     firebase.database().ref('taskList').child(id).remove();
     dispatch(getListsTC());
 };
 
 export const updateListsTC = (list) => async (dispatch) => {
     let id = list.id;
-
-    // const db = firebase.database().ref('taskList');
-    // db.once('value', (elem) => {
-    //     var response = elem.val().length;
-
-    //     let updates = {};
-    //     updates[id] = list;
-    //     firebase.database().ref('taskList').child(id).update(updates);
-    // });
-
-    await listsAPI.changeLists(id, list);
+    var updates = {};
+    updates[id] = list
+    const db = firebase.database().ref('taskList').child(id).update(updates);
     dispatch(getListsTC());
 };
 
 export const addListsTC = (list) => async (dispatch) => {
-
     const db = firebase.database().ref('taskList');
-    db.once('value', (elem) => {
-        var response = elem.val().length;
-        console.log(response);
-        list.id = response;
-        let updates = {};
-        updates[response] = list;
-        firebase.database().ref('taskList').update(updates);
-    });
-
-
+    var newKey = firebase.database().ref('taskList').push().key;
+    var updates = {};
+    list.id = newKey;
+    updates[newKey] = list;
+    firebase.database().ref('taskList').update(updates);
+    
     dispatch(getListsTC());
 }

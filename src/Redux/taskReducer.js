@@ -23,24 +23,6 @@ const taskReducer = (state = initialState, action) => {
                 ...state,
                 tasks: action.tasks.task
             }
-        case ADD_TASK:
-            // debugger
-            let newTask = {
-                id: 3,
-                taskName: action.newTaskText,
-                isNow: action.isNow
-            };
-            return {
-                ...state,
-                tasks: [...state.tasks, newTask]
-            }
-
-        case UPDATE_TASK_TEXT:
-
-            return {
-                ...state,
-                newTaskText: action.newTaskText
-            }
 
         default:
             return state;
@@ -64,23 +46,28 @@ export const getTasksTC = (listId) => async (dispatch) => {
         let tasks = response[listId]
         dispatch(setTasks(tasks))
     })
-
-
-    // let response = await tasksAPI.getTasks();
-    // dispatch(setTasks(response))
 };
 
 export const deleteTasksTC = (id) => async (dispatch) => {
-    await tasksAPI.deleteTasks(id);
+    firebase.database().ref('task').child(id).remove();
     dispatch(getTasksTC());
 };
 
 export const checkTasksTC = (id, task) => async (dispatch) => {
-    await tasksAPI.changeTasks(id, task);
+    var updates = {};
+    updates[id] = task;
+    firebase.database().ref('task').child(id).update(updates);
+    // await tasksAPI.changeTasks(id, task);
     dispatch(getTasksTC());
 };
 
-export const addTasksTC = (task) => async (dispatch) => {
-    await tasksAPI.addTasks(task);
-    dispatch(getTasksTC());
+export const addTasksTC = (listId, task) => async (dispatch) => {
+    var newKey = firebase.database().ref('task').push().key;
+    var updates = {};
+    task.id = newKey;
+    updates[newKey] = task;
+    console.log(listId)
+    firebase.database().ref('taskList').child(listId).child('task').update(updates);
+    
+    // dispatch(getTasksTC());
 };

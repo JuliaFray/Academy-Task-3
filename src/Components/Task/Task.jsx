@@ -6,8 +6,9 @@ import { Redirect } from 'react-router';
 const Task = (props) => {
 
     let task = props.task;
+    // console.log(task)
 
-    if (!task.isDone) {
+    if (task.isDone) {
         if (task.isNow) {
             var style = css.high
         } else if (!task.isNow) {
@@ -29,9 +30,9 @@ const Task = (props) => {
 
     return (
         <div className={`${css.task} + ${style}`}>
-            <div className={css.text}>{task.taskName}</div>
+            <div className={css.text}>{task.taskText}</div>
 
-            {task.isDone
+            {!task.isDone
                     ? <button onClick = {() => props.deleteTask(task.id)} className={css.deleteBtn}>Delete</button>
                     : <button onClick = {() => changeTask(props.task)} className={css.checkBtn}>Check done</button>}
         </div>

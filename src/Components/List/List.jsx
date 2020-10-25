@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import css from './List.module.css';
 
 const List = (props) => {
-    // console.log(props.list[0])
+    // console.log(props)
 
     return (
         <div className={`${css.list}`}>
