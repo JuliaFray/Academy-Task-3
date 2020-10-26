@@ -15,7 +15,6 @@ const initialState = {
 const taskReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_TASK:
-            // debugger
             return {
                 ...state,
                 tasks: action.tasks.task
@@ -63,10 +62,8 @@ export const addTasksTC = (uid ,listId, task) => async (dispatch) => {
 };
 
 export const updateTasksTC = (uid,listId, task) => async (dispatch) => {
-    // debugger
     let id = task.id;
     var updates = {};
     updates[id] = task
     firebase.database().ref(uid).child('taskList').child(listId).child('task').update(updates);
-    // dispatch(getListsTC());
 };

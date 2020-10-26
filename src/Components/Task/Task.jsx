@@ -19,10 +19,11 @@ const Task = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false);
-        console.log(editMode)
+
         let path = window.location.href;
         path = path.split('/');
         let listId = path[path.length - 1];
+        
         let task = props.task
         task.taskText = newTaskName;
         dispatch(updateTasksTC(props.uid, listId, task))

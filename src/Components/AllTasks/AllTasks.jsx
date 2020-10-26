@@ -68,7 +68,7 @@ const AllTasks = () => {
                     </div>
 
                     <div className={css.tasks}>
-                        {tasksArray.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} />)}
+                        {tasksArray.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} uid = {uid}/>)}
                     </div>
                 </div>
                 : <div className={css.allTasks}>

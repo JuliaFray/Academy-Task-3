@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import { setSubmitSucceeded } from 'redux-form';
 import InputFormList from '../InputFormList/InputFormList';
-import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listReducer';
+import { addListsTC, deleteListsTC, getListsTC } from './../../Redux/listReducer';
 import List from './../List/List';
 import css from './Lists.module.css';
 
@@ -27,17 +26,11 @@ const Lists = () => {
         dispatch(deleteListsTC(uid, id))
     }
 
-    // function useUpdateList(list) {
-    //     dispatch(updateListsTC(uid, list))
-    // }
-
-
     const isAuth = useSelector(state => state.authPage.isAuth);
 
     if (!isAuth) {
         return <Redirect to={'/'} />
     }
-
 
     let listsArray = [];
     if (lists) {
