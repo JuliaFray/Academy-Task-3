@@ -12,6 +12,7 @@ const AllTasks = () => {
 
     const tasks = useSelector(state => state.taskPage.tasks);
     const isAuth = useSelector(state => state.authPage.isAuth);
+    const uid = useSelector(state => state.authPage.userUid)
 
     const dispatch = useDispatch();
 
@@ -19,26 +20,29 @@ const AllTasks = () => {
         let path = window.location.href;
         path = path.split('/');
         let listId = path[path.length - 1];
-        dispatch(getTasksTC(listId));
+        dispatch(getTasksTC(uid, listId));
     }, []);
 
     function useDeleteTask(id) {
-        dispatch(deleteTasksTC(id))
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        dispatch(deleteTasksTC(uid, listId, id))
     };
 
     function useCheckTask(id, task) {
-        dispatch(checkTasksTC(id, task))
+        dispatch(checkTasksTC(uid, id, task))
     }
 
     function useNewTask(task) {
         let path = window.location.href;
         path = path.split('/');
         let listId = path[path.length - 1];
-        dispatch(addTasksTC(listId, task))
+        dispatch(addTasksTC(uid, listId, task))
     }
 
     if (!isAuth) {
-        return <Redirect to={'/login'} />
+        return <Redirect to={'/'} />
     }
     let tasksArray = [];
     if (tasks) {
@@ -47,32 +51,37 @@ const AllTasks = () => {
         tasksArray = []
     };
 
-    console.log(tasksArray)
+    // console.log(tasksArray)
 
 
     return (
-        <div className={css.allTasks} >
-            <div className={css.header}>
-                {tasksArray.length > 0
-                    ? <div>
-                        <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => !task.isDone).length}
-                            <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
+        <div className={css.allTasksWrapper}>
+            {tasksArray.length > 0
+                ? <div className={css.allTasks}>
+                    <div className={css.header}>
+                    <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => task.isDone == 'false').length}
+                                <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
+
                         <div className={css.inputForm}>
                             <InputForm useNewTask={useNewTask} />
                         </div>
-                        <div className={css.tasks}>
-                            {tasksArray.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} />)}
-                        </div>
                     </div>
-                    : <div>
-                        <h2 className={css.headerText}>Подзадач нет<NavLink className={css.headerLink} to={'/taskList'}> back </NavLink>
+
+                    <div className={css.tasks}>
+                        {tasksArray.map(t => <Task task={t} deleteTask={useDeleteTask} checkTask={useCheckTask} />)}
+                    </div>
+                </div>
+                : <div className={css.allTasks}>
+                    <div className={css.header}>
+                        <h2 className={css.headerText}>Active Tasks: 0<NavLink className={css.headerLink} to={'/taskList'}> back </NavLink>
                         </h2>
                         <div className={css.inputForm}>
                             <InputForm useNewTask={useNewTask} />
                         </div>
                     </div>
-                }
-            </div>
+
+                </div>
+            }
         </div>
     )
 };

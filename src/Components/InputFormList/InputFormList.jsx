@@ -17,7 +17,7 @@ const InputForm = (props) => {
         <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
 
             <input className={css.text} name='taskText'
-                ref={register} placeholder={'enter your task'} />
+                ref={register} placeholder={'Enter your task'} />
                 
             <input className={css.addBtn} value="ADD" type='submit' />
         </form>

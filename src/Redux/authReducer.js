@@ -6,8 +6,9 @@ const SET_USER_DATA = 'SET-USER-DATA';
 
 //initial state
 let initialState = {
-    login: '',
-    isAuth: false
+    login: 'login',
+    isAuth: false,
+    userUid: ''
 };
 
 //reducer
@@ -27,9 +28,9 @@ const authReducer = (state = initialState, action) => {
 export default authReducer;
 
 //action creators
-export const setUserData = (login, isAuth) => ({
+export const setUserData = (login, isAuth, userUid) => ({
     type: SET_USER_DATA,
-    payload: { login, isAuth }
+    payload: { login, isAuth,  userUid}
 });
 
 //thunk creators
@@ -41,22 +42,40 @@ export const loginTC = (login, password) => async (dispatch) => {
         });
 
         firebase.auth().onAuthStateChanged(function(user) {
-            console.log(user)
+            
             if (user) {
+                // console.log(user)
+                // console.log(user.uid)
                 if (user.email == login) {
-                    dispatch(setUserData(login, true))
+                    dispatch(setUserData(login, true, user.uid));
+                    
                 }
             } else {
                 dispatch(setUserData('', false))
             }
         })
-
-    
-
 };
 
 export const logoutTC = () => async (dispatch) => {
     firebase.auth().signOut().then(function() {
         dispatch(setUserData('', false));
     })
+}
+
+export const regTC = (login, password) => async (dispatch) => {
+    firebase.auth().createUserWithEmailAndPassword(login, password)
+        .catch(error => {
+            console.log(error)
+        });
+
+        // firebase.auth().onAuthStateChanged(function(user) {
+        //     console.log(user)
+        //     if (user) {
+        //         if (user.email == login) {
+        //             dispatch(setUserData(login, true))
+        //         }
+        //     } else {
+        //         dispatch(setUserData('', false))
+        //     }
+        // })
 }

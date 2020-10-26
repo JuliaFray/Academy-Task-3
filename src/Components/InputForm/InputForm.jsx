@@ -19,10 +19,11 @@ const InputForm = (props) => {
         <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
 
             <input className={css.text} name='taskText'
-                ref={register} placeholder={'enter your task'} />
-
-            <label for = 'isNow'>Срочность</label>
-            <input name = 'isNow' ref = {register} id = 'isNow' type = 'checkbox' />
+                ref={register} placeholder={'Enter your task'} />
+            <div className = {css.isNow}>
+                <label for='isNow'>Срочность</label>
+                <input name='isNow' ref={register} id='isNow' type='checkbox' />
+            </div>
 
             <input className={css.addBtn} type='submit' value='ADD' />
 

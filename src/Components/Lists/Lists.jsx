@@ -1,58 +1,80 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
+import { setSubmitSucceeded } from 'redux-form';
 import InputFormList from '../InputFormList/InputFormList';
 import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listReducer';
+import List from './../List/List';
 import css from './Lists.module.css';
-import List from './../List/List'
 
 
 const Lists = () => {
 
     const lists = useSelector(state => state.listPage.lists);
+    const uid = useSelector(state => state.authPage.userUid);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getListsTC());
-    }, [lists.length]);
+        dispatch(getListsTC(uid));
+    }, []);
 
     function useNewList(list) {
-        dispatch(addListsTC(list))
+        dispatch(addListsTC(uid, list))
     };
 
     function useDeleteList(id) {
-        dispatch(deleteListsTC(id))
+        dispatch(deleteListsTC(uid, id))
     }
 
-    function useUpdateList() { }
+    // function useUpdateList(list) {
+    //     dispatch(updateListsTC(uid, list))
+    // }
 
 
     const isAuth = useSelector(state => state.authPage.isAuth);
 
     if (!isAuth) {
-        return <Redirect to={'/login'} />
+        return <Redirect to={'/'} />
     }
 
+
     let listsArray = [];
-    listsArray = Object.values(lists);
+    if (lists) {
+        listsArray = Object.values(lists);
+    } else {
+        listsArray = []
+    }
+
+    console.log(listsArray.length)
 
     return (
-        <div className={css.allTasks}>
-            <div className={css.header}>
-                <h2 >All Tasks</h2>
-            </div>
-
-            <div className={css.inputForm}>
-                <InputFormList useNewTask={useNewList} />
-            </div>
-
-            <div className={css.tasks}>
-                {listsArray.length > 1
-                    ? listsArray.map(l => <List list={l} deleteList={useDeleteList} updateList={useUpdateList} />)
-                    : <List list={listsArray[0]} deleteList={useDeleteList} updateList={useUpdateList} />
-                }
-            </div>
-
+        <div className={css.allTasksWrapper}>
+            {
+                listsArray.length > 0
+                    ? <div className={css.allTasks}>
+                        <div className={css.header}>
+                            <h2 className={css.headerText}>All Tasks</h2>
+                            <div className={css.inputForm}>
+                                <InputFormList useNewTask={useNewList} />
+                            </div>
+                        </div>
+                        <div className={css.tasks}>
+                            {listsArray.length > 1
+                                ? listsArray.map(l => <List list={l} deleteList={useDeleteList}  uid={uid} />)
+                                : <List list={listsArray[0]} deleteList={useDeleteList} uid={uid} />
+                            }
+                        </div>
+                    </div>
+                    : <div className={css.allTasks}>
+                        <div className={css.header}>
+                            <h2 >All Tasks: 0</h2>
+                            <div className={css.inputForm}>
+                                <InputFormList useNewTask={useNewList} />
+                            </div>
+                        </div>
+                    </div>
+            }
         </div>
     )
 }

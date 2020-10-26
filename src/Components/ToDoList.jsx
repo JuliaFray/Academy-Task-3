@@ -5,6 +5,7 @@ import Header from './Header/Header';
 import Lists from './Lists/Lists';
 import LoginForm from './Login/LoginForm';
 import css from './ToDoList.module.css';
+import RegForm from './Registration/RegForm'
 
 const ToDoList = () => {
 
@@ -12,11 +13,12 @@ const ToDoList = () => {
         
             <div className={css.todo}>
                 <Header />
-                <h1>ToDoList</h1>
                 <Route path='/taskList/:taskId' render={() => <AllTask />} />
                 <Route exact path='/taskList' render={() => <Lists />} />
 
-                <Route path='/login' render={() => <LoginForm /> } />
+                <Route exact path='/' render={() => <LoginForm /> } />
+
+                <Route path='/registration' render={() => <RegForm /> } />
             </div>
 
     )

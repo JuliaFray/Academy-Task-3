@@ -1,12 +1,8 @@
 // API
-import { listsAPI } from '../API/API';
 import * as firebase from 'firebase';
-import { isAsyncValidating } from 'redux-form';
 
 // consts
 const SET_LIST = 'SET-LIST';
-const ADD_LIST = 'ADD-LIST';
-const UPDATE_LIST_TEXT = 'UPDATE-LIST-TEXT';
 
 // initial state
 const initialState = {
@@ -35,35 +31,38 @@ export default listReducer;
 export const setLists = (lists) => ({ type: SET_LIST, lists });
 
 // thunk creators
-export const getListsTC = () => async (dispatch) => {
-    const db = firebase.database().ref('taskList');
+export const getListsTC = (uid) => async (dispatch) => {
+    const db = firebase.database().ref(uid).child('taskList');
     db.on('value', (elem) => {
+        
         let response = elem.val();
+        // console.log(response)
         dispatch(setLists(response))
     })
 };
 
-export const deleteListsTC = (id) => async (dispatch) => {
+export const deleteListsTC = (uid, id) => async (dispatch) => {
     console.log(id)
-    firebase.database().ref('taskList').child(id).remove();
-    dispatch(getListsTC());
+    firebase.database().ref(uid).child('taskList').child(id).remove();
+    // dispatch(getListsTC());
 };
 
-export const updateListsTC = (list) => async (dispatch) => {
+export const updateListsTC = (uid, list) => async (dispatch) => {
+    // debugger
     let id = list.id;
     var updates = {};
     updates[id] = list
-    const db = firebase.database().ref('taskList').child(id).update(updates);
-    dispatch(getListsTC());
+    firebase.database().ref(uid).child('taskList').update(updates);
+    // dispatch(getListsTC());
 };
 
-export const addListsTC = (list) => async (dispatch) => {
-    const db = firebase.database().ref('taskList');
-    var newKey = firebase.database().ref('taskList').push().key;
+export const addListsTC = (uid, list) => async (dispatch) => {
+    firebase.database().ref(uid).child('taskList');
+    var newKey = firebase.database().ref(uid).child('taskList').push().key;
     var updates = {};
     list.id = newKey;
     updates[newKey] = list;
-    firebase.database().ref('taskList').update(updates);
+    firebase.database().ref(uid).child('taskList').update(updates);
     
-    dispatch(getListsTC());
+    // dispatch(getListsTC());
 }

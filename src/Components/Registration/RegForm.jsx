@@ -3,10 +3,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
-import { loginTC } from './../../Redux/authReducer';
-import css from './LoginForm.module.css';
+import { regTC } from '../../Redux/authReducer';
+import css from './RegForm.module.css';
+import { NavLink } from 'react-router-dom';
 
 const showErrors = yup.object().shape({
     login: yup.string().required(),
@@ -16,7 +16,6 @@ const showErrors = yup.object().shape({
 const LoginForm = () => {
 
     const isAuth = useSelector(state => state.authPage.isAuth);
-    const uid = useSelector(state => state.authPage.userUid)
     // console.log(isAuth)
 
 
@@ -27,39 +26,31 @@ const LoginForm = () => {
     });
 
     const onSubmit = (data) => {
-        dispatch(loginTC(data.login, data.password, data.rememberme));
+        dispatch(regTC(data.login, data.password));
         setValue('login', '');
         setValue('password', '')
     }
 
     if (isAuth) {
-        return <Redirect to={`/taskList`} />
+        return <Redirect to={'/taskList'} />
     }
 
     return (
         <form className={css.form} onSubmit={handleSubmit(onSubmit)} >
             <div className={css.formWrapper}>
-            <h2>Login</h2>
+                <h2>Create account</h2>
                 <input name='login' ref={register} className={css.text} type='text' placeholder='Enter login' />
                 <p>{errors.login?.message}</p>
                 <input name='password' ref={register} className={css.text} type='password' placeholder='Enter password' />
                 <p>{errors.password?.message}</p>
 
-                <div className={css.checkbox}>
-                    <label for='rememberme'>Remember me</label>
-                    <input name='rememberme' ref={register} className={css.check}
-                        type='checkbox' id='rememberme' />
+                <input className={css.btn} type='submit' value='Create account' />
+
+                <div className={css.linkWrapper}>
+                    <NavLink className={css.link} to={'/'} >Login?</NavLink>
                 </div>
-
-
-
-                <input className={css.btn} type='submit' value='Login' />
             </div>
 
-
-            <div className={css.linkWrapper}>
-                <NavLink className={css.link} to={'/registration'} >Create account?</NavLink>
-            </div>
         </form>
     )
 }
