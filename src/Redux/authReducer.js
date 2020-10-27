@@ -15,7 +15,6 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
-            // debugger
             return {
                 ...state,
                 ...action.payload
@@ -44,11 +43,8 @@ export const loginTC = (login, password) => async (dispatch) => {
         firebase.auth().onAuthStateChanged(function(user) {
             
             if (user) {
-                // console.log(user)
-                // console.log(user.uid)
                 if (user.email == login) {
                     dispatch(setUserData(login, true, user.uid));
-                    
                 }
             } else {
                 dispatch(setUserData('', false))
@@ -68,14 +64,5 @@ export const regTC = (login, password) => async (dispatch) => {
             console.log(error)
         });
 
-        // firebase.auth().onAuthStateChanged(function(user) {
-        //     console.log(user)
-        //     if (user) {
-        //         if (user.email == login) {
-        //             dispatch(setUserData(login, true))
-        //         }
-        //     } else {
-        //         dispatch(setUserData('', false))
-        //     }
-        // })
+        dispatch(loginTC(login, password))
 }
