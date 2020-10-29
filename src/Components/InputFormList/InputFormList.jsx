@@ -1,15 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import css from './InputForm.module.css';
+import css from './InputFormList.module.css';
 
 const InputForm = (props) => {
     const { register, handleSubmit, setValue } = useForm();
 
     const onSubmit = (data) => {
         let newTask = {
-            taskText: data.taskText,
-            isNow: data.isNow,
-            isDone: 'false'
+            taskListName: data.taskText
         }
         props.useNewTask(newTask);
         setValue('taskText', '')
@@ -20,13 +18,8 @@ const InputForm = (props) => {
 
             <input className={css.text} name='taskText'
                 ref={register} placeholder={'Enter your task'} />
-            <div className = {css.isNow}>
-                <label for='isNow'>Срочность</label>
-                <input name='isNow' ref={register} id='isNow' type='checkbox' />
-            </div>
-
-            <input className={css.addBtn} type='submit' value='ADD' />
-
+                
+            <input className={css.addBtn} value="ADD" type='submit' />
         </form>
     )
 };

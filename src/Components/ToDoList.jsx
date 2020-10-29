@@ -1,22 +1,27 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import AllTask from './AllTasks/AllTasks';
+import Header from './Header/Header';
 import Lists from './Lists/Lists';
-import NavBar from './Nav/Nav';
+import LoginForm from './Login/LoginForm';
 import css from './ToDoList.module.css';
+import RegForm from './Registration/RegForm'
 
 const ToDoList = () => {
+
     return (
         
             <div className={css.todo}>
-                <h1>ToDoList</h1>
-                <NavBar />
-                <Route path='/allTasks' render={() => <AllTask />} />
-                <Route path='/allLists' render={() => <Lists />} />
+                <Header />
+                <Route path='/taskList/:taskId' render={() => <AllTask />} />
+                <Route exact path='/taskList' render={() => <Lists />} />
 
+                <Route exact path='/' render={() => <LoginForm /> } />
+
+                <Route path='/registration' render={() => <RegForm /> } />
             </div>
 
     )
 };
 
-export default ToDoList;
+export default withRouter(ToDoList);

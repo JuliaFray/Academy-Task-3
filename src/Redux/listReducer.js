@@ -1,52 +1,12 @@
 // API
-import { listsAPI } from '../API/API';
+import * as firebase from 'firebase';
 
 // consts
 const SET_LIST = 'SET-LIST';
-const ADD_LIST = 'ADD-LIST';
-const UPDATE_LIST_TEXT = 'UPDATE-LIST-TEXT';
 
 // initial state
 const initialState = {
-    lists: [
-        { id: 0, taskListName: "firstTaskList",
-            task : [
-                {   id: 1,
-                    taskText: "write 1 task",
-                    done: "true",
-                    priority: "high" },
-
-                {   taskText: "Chek all tasks",
-                    priority: "high",
-                    done: "true",
-                    id: 2 },
-                {   taskText: "repair task adding",
-                    priority: "medium",
-                    done: "true",
-                    id: 3 },
-                {   taskText: "clear input",
-                    priority: "low",
-                    done: "true",
-                    id: 4 }
-            ]
-        },
-        {   id: 1, taskListName: "secondTaskList",
-            task: [
-                {   id: 1,
-                    taskText: "write 1 task",
-                    done: "true",
-                    priority: "high"
-                },
-                {   taskText: "Chek all tasks",
-                    priority: "high",
-                    done: "true",
-                    id: 2
-                }
-            ]
-        }
-    ],
-
-    newListText: ''
+    lists: [{}]
 };
 
 
@@ -54,28 +14,12 @@ const initialState = {
 const listReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_LIST:
+            // debugger
             return {
                 ...state,
                 lists: action.lists
             }
-        case ADD_LIST:
-            // debugger
-            let newList = {
-                id: 3,
-                listText: action.newListText
-            };
-            return {
-                ...state,
-                lists: [...state.lists, newList]
-            }
-
-        case UPDATE_LIST_TEXT:
-
-            return {
-                ...state,
-                newListText: action.newListText
-            }
-
+            
         default:
             return state;
     }
@@ -85,27 +29,40 @@ export default listReducer;
 
 // action creators
 export const setLists = (lists) => ({ type: SET_LIST, lists });
-// export const addTask = (task) => ({ type: ADD_TASK, task });
-// export const updateLText = (newTaskText) => ({ type: UPDATE_TASK_TEXT, newTaskText });
-
 
 // thunk creators
-export const getListsTC = () => async (dispatch) => {
-    let response = await listsAPI.getLists();
-    dispatch(setLists(response))
+export const getListsTC = (uid) => async (dispatch) => {
+    const db = firebase.database().ref(uid).child('taskList');
+    db.on('value', (elem) => {
+        
+        let response = elem.val();
+        // console.log(response)
+        dispatch(setLists(response))
+    })
 };
 
-export const deleteListsTC = (id) => async (dispatch) => {
-    await listsAPI.deleteLists(id);
-    dispatch(getListsTC());
+export const deleteListsTC = (uid, id) => async (dispatch) => {
+    console.log(id)
+    firebase.database().ref(uid).child('taskList').child(id).remove();
+    // dispatch(getListsTC());
 };
 
-export const checkListsTC = (id, list) => async (dispatch) => {
-    await listsAPI.changeLists(id, list);
-    dispatch(getListsTC());
+export const updateListsTC = (uid, list) => async (dispatch) => {
+    // debugger
+    let id = list.id;
+    var updates = {};
+    updates[id] = list
+    firebase.database().ref(uid).child('taskList').update(updates);
+    // dispatch(getListsTC());
 };
 
-export const addListsTC = (list) => async (dispatch) => {
-    await listsAPI.addLists(list);
-    dispatch(getListsTC());
-};
+export const addListsTC = (uid, list) => async (dispatch) => {
+    firebase.database().ref(uid).child('taskList');
+    var newKey = firebase.database().ref(uid).child('taskList').push().key;
+    var updates = {};
+    list.id = newKey;
+    updates[newKey] = list;
+    firebase.database().ref(uid).child('taskList').update(updates);
+    
+    // dispatch(getListsTC());
+}

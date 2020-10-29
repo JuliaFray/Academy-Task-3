@@ -1,34 +1,76 @@
-import React from 'react';
-import css from './Task.module.css'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
+import css from './Task.module.css';
+import {updateTasksTC} from './../../Redux/taskReducer'
 
 const Task = (props) => {
 
-    if (props.task.done == 'false') {
-        if (props.task.priority == 'high') {
+    console.log(props)
+
+    const [editMode, setEditMode] = useState(false);
+    const [newTaskName, setNewTaskName] = useState(props.taskName);
+
+    const dispatch = useDispatch();
+
+    const activateEditMode = () => {
+        setEditMode(true);
+    };
+
+    const deactivateEditMode = () => {
+        setEditMode(false);
+
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        
+        let task = props.task
+        task.taskText = newTaskName;
+        dispatch(updateTasksTC(props.uid, listId, task))
+    };
+
+    const onTaskNameChange = ({ target: { value } }) => {
+        setNewTaskName(value)
+    }
+
+    let task = props.task;
+
+    if (task.isDone == 'false') {
+        if (task.isNow) {
             var style = css.high
-        } else if (props.task.priority == 'medium') {
-            var style = css.medium
-        } else {
+        } else if (!task.isNow) {
             var style = css.low
         }
     } else {
         var style = css.done
     }
 
-    
-
     function changeTask(task) {
-        task.done = 'true';
-        props.checkTask(props.task.id, props.task)
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        task.isDone = 'true';
+        props.checkTask(listId, task)
+    };
+
+    const isAuth = useSelector(state => state.authPage.isAuth);
+    if (!isAuth) {
+        return <Redirect to={'/'} />
     }
 
-    return (
-        <div className={`${css.task} + ${style}`}>
-            <div className={css.text}>{props.task.taskText}</div>
 
-            {props.task.done == 'true'
-                    ? <button onClick = {() => props.deleteTask(props.task.id)} className={css.deleteBtn}>Delete</button>
-                    : <button onClick = {() => changeTask(props.task)} className={css.checkBtn}>Check done</button>}
+    return (
+        <div>
+            {!editMode
+                ? <div className={`${css.task} + ${style}`}>
+                    <div className={css.text}>{task.taskText}</div>
+                    <button className={css.update} onClick={() => activateEditMode()} className={css.deleteBtn}>Rename</button>
+                    {task.isDone == 'true'
+                        ? <button onClick={() => props.deleteTask(task.id)} className={css.deleteBtn}>Delete</button>
+                        : <button onClick={() => changeTask(props.task)} className={css.checkBtn}>Check done</button>}
+                </div>
+                : <input className={css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />
+            }
         </div>
     )
 };

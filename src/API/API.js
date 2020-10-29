@@ -95,4 +95,41 @@ export const listsAPI = {
                 })
         )
     }
+};
+
+export const authAPI = {
+    me() {
+        return (
+            instance
+                .get(`auth`)
+                .then(response => {
+                    return response
+                })
+        )
+    }
+};
+
+export const logAPI = {
+    login(login, password, rememeberme) {
+        return (
+            instance
+                .post(`login`, {login, password, rememeberme })
+                .then(response => {
+                    if (response.resultCode === '200') {
+                        return response
+                    }
+                })
+        )
+    },
+
+    logout() {
+        return (
+            instance
+                .delete(`logout`)
+                .then(response => {
+                    debugger
+                    return response
+                })
+        )
+    }
 }
