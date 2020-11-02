@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { addTasksTC, checkTasksTC, deleteTasksTC, getTasksTC } from '../../Redux/taskReducer';
+import { addTasksTC, checkTasksTC, deleteTasksTC, getTasksTC } from '../../Redux/taskAction';
 import InputForm from '../InputForm/InputForm';
 import Task from './../Task/Task';
 import css from './AllTasks.module.css';
@@ -20,7 +20,7 @@ const AllTasks = () => {
         let path = window.location.href;
         path = path.split('/');
         let listId = path[path.length - 1];
-        dispatch(getTasksTC(uid, listId));
+       dispatch( getTasksTC(uid, listId));
     }, []);
 
     function useDeleteTask(id) {
@@ -41,9 +41,12 @@ const AllTasks = () => {
         dispatch(addTasksTC(uid, listId, task))
     }
 
+    const history = useHistory();
+
     if (!isAuth) {
-        return <Redirect to={'/'} />
+        history.push('/')
     }
+
     let tasksArray = [];
     if (tasks) {
         tasksArray = Object.values(tasks);
@@ -51,15 +54,12 @@ const AllTasks = () => {
         tasksArray = []
     };
 
-    // console.log(tasksArray)
-
-
     return (
         <div className={css.allTasksWrapper}>
             {tasksArray.length > 0
                 ? <div className={css.allTasks}>
                     <div className={css.header}>
-                    <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => task.isDone == 'false').length}
+                    <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => task.isDone === 'false').length}
                                 <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
 
                         <div className={css.inputForm}>

@@ -2,9 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import * as yup from 'yup';
-import { regTC } from '../../Redux/authReducer';
+import { regTC } from '../../Redux/authAction';
 import css from './RegForm.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -16,8 +16,6 @@ const showErrors = yup.object().shape({
 const LoginForm = () => {
 
     const isAuth = useSelector(state => state.authPage.isAuth);
-    // console.log(isAuth)
-
 
     const dispatch = useDispatch();
 
