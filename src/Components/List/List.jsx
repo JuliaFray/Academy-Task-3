@@ -19,8 +19,6 @@ const List = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false);
-        console.log(editMode)
-        console.log(props);
         let list = props.list
         list.taskListName = newTaskName;
         dispatch(updateListsTC(props.uid, list))
@@ -39,8 +37,8 @@ const List = (props) => {
                         <div className={css.text}>{props.list.taskListName}</div>
                     </NavLink>
                     <div className={css.btns}>
-                        <button className={css.update} onClick={() => activateEditMode()} className={css.deleteBtn}>Rename</button>
-                        <button className={css.delete} onClick={() => props.deleteList(props.list.id)} className={css.deleteBtn}>Delete</button>
+                        <button className={css.updateBtn} onClick={() => activateEditMode()}>Rename</button>
+                        <button className={css.deleteBtn} onClick={() => props.deleteList(props.list.id)}>Delete</button>
                     </div>
                 </div>
                 : <input className = {css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />

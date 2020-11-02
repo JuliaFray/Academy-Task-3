@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutTC } from '../../Redux/authReducer';
+import { logoutTC } from '../../Redux/authAction';
 import css from './Header.module.css';
 
 const Header = () => {

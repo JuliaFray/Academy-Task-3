@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import InputFormList from '../InputFormList/InputFormList';
 import { addListsTC, deleteListsTC, getListsTC } from './../../Redux/listReducer';
 import List from './../List/List';
@@ -27,9 +27,10 @@ const Lists = () => {
     }
 
     const isAuth = useSelector(state => state.authPage.isAuth);
+    const history = useHistory();
 
     if (!isAuth) {
-        return <Redirect to={'/'} />
+        history.push('/')
     }
 
     let listsArray = [];
@@ -38,8 +39,6 @@ const Lists = () => {
     } else {
         listsArray = []
     }
-
-    console.log(listsArray.length)
 
     return (
         <div className={css.allTasksWrapper}>
