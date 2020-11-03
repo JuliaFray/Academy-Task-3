@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import InputFormList from '../InputFormList/InputFormList';
-import { addListsTC, deleteListsTC, getListsTC } from './../../Redux/listReducer';
+import { addListsTC, deleteListsTC, getListsTC } from './../../Redux/listAction';
 import List from './../List/List';
 import css from './Lists.module.css';
 
@@ -10,10 +10,15 @@ import css from './Lists.module.css';
 const Lists = () => {
 
     const lists = useSelector(state => state.listPage.lists);
-    const uid = useSelector(state => state.authPage.userUid);
-
+    // const uid = useSelector(state => state.authPage.userUid);
+    const uid = localStorage.getItem('uid');
+    const localIsAuth = localStorage.getItem('isAuth');
+    const isAuth = useSelector(state => state.authPage.isAuth);
+    const login = useSelector(state => state.authPage.login)
+    const history = useHistory();
     const dispatch = useDispatch();
 
+    // debugger
     useEffect(() => {
         dispatch(getListsTC(uid));
     }, []);
@@ -26,10 +31,8 @@ const Lists = () => {
         dispatch(deleteListsTC(uid, id))
     }
 
-    const isAuth = useSelector(state => state.authPage.isAuth);
-    const history = useHistory();
-
-    if (!isAuth) {
+    if (localIsAuth === 'false') {
+        console.log('push /')
         history.push('/')
     }
 

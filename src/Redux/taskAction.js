@@ -7,6 +7,14 @@ export const setTasks = (tasks) => ({ type: SET_TASK, tasks });
 // thunk creators
 export function getTasksTC(uid, listId) {
     return (dispatch, getState, getFirebase) => {
+
+        if (!uid) {
+            uid = localStorage.getItem('uid')
+        }
+
+        // console.log(uid)
+        // console.log(listId)
+
         return getFirebase()
             .database()
             .ref(uid)
@@ -22,6 +30,9 @@ export function getTasksTC(uid, listId) {
 
 export function deleteTasksTC(uid, listId, id) {
     return (dispatch, getState, getFirebase) => {
+        if (!uid) {
+            uid = localStorage.getItem('uid');
+        }
         return getFirebase()
             .database()
             .ref(uid)
@@ -35,6 +46,9 @@ export function deleteTasksTC(uid, listId, id) {
 
 export function checkTasksTC(uid, listId, task) {
     return (dispatch, getState, getFirebase) => {
+        if (!uid) {
+            uid = localStorage.getItem('uid');
+        }
         var updates = {};
         let id = task.id
         updates[id] = task;
@@ -50,6 +64,9 @@ export function checkTasksTC(uid, listId, task) {
 
 export function addTasksTC(uid, listId, task) {
     return (dispatch, getState, getFirebase) => {
+        if (!uid) {
+            uid = localStorage.getItem('uid');
+        }
         var newKey = getFirebase()
             .database()
             .ref('task')
@@ -71,6 +88,9 @@ export function addTasksTC(uid, listId, task) {
 
 export function updateTasksTC(uid, listId, task) {
     return (dispatch, getState, getFirebase) => {
+        if (!uid) {
+            uid = localStorage.getItem('uid');
+        }
         let id = task.id;
         var updates = {};
         updates[id] = task

@@ -1,11 +1,14 @@
 //consts
 export const SET_USER_DATA = 'SET-USER-DATA';
+export const SET_IS_AUTH = 'SET-IS-AUTH';
 
 //action creators
 export const setUserData = (login, isAuth, userUid) => ({
     type: SET_USER_DATA,
     payload: { login, isAuth, userUid }
 });
+
+export const setIsAuth = (isAuth) => ({ type: SET_IS_AUTH, isAuth })
 
 //thunk creators
 export function loginTC(login, password) {
@@ -26,7 +29,12 @@ function checkCurrentUser(login) {
             .currentUser;
         if (user) {
             if (user.email === login) {
-                dispatch(setUserData(login, 'true', user.uid))
+                localStorage.setItem('uid', user.uid);
+                localStorage.setItem('isAuth', 'true');
+                localStorage.setItem('login', login)
+                // console.log(localStorage.getItem('uid'));
+                dispatch(setUserData(login, true, user.uid));
+                dispatch(setIsAuth(true))
             }
         }
     }
@@ -34,11 +42,16 @@ function checkCurrentUser(login) {
 
 export function logoutTC() {
     return (dispatch, getState, getFirebase) => {
+        localStorage.setItem('uid', '');
+        localStorage.setItem('isAuth', 'false');
+        localStorage.setItem('login', '')
         return getFirebase()
             .auth()
             .signOut()
-            .then(function () {
-                dispatch(setUserData('', false));
+            .then(() => {
+                dispatch(setUserData('', false, ''));
+                dispatch(setIsAuth(false))
+                // localStorage.clear()
             })
     }
 }

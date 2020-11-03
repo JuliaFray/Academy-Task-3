@@ -16,6 +16,11 @@ const showErrors = yup.object().shape({
 const LoginForm = () => {
 
     const isAuth = useSelector(state => state.authPage.isAuth);
+    const uid = localStorage.getItem('uid');
+    // isAuth = localStorage.getItem('isAuth');
+    const localIsAuth = localStorage.getItem('isAuth')
+
+    
 
     const dispatch = useDispatch();
 
@@ -29,7 +34,10 @@ const LoginForm = () => {
         setValue('password', '')
     }
 
-    if (isAuth) {
+    // console.log(localIsAuth)
+    // console.log(isAuth)
+
+    if (localIsAuth === 'true') {
         return <Redirect to={`/taskList`} />
     }
 

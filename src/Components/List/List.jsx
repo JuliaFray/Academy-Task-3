@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { updateListsTC } from './../../Redux/listReducer';
+import { updateListsTC } from './../../Redux/listAction';
 import css from './List.module.css';
 
 const List = (props) => {
+    // console.log(props)
 
     const taskName = useSelector(state => state.listPage.lists.taskListName)
     const [editMode, setEditMode] = useState(false);

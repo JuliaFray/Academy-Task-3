@@ -6,9 +6,15 @@ import css from './Header.module.css';
 const Header = () => {
 
     const isAuth = useSelector(state => state.authPage.isAuth);
-    const login = useSelector(state => state.authPage.login);
+    const localIsAuth = localStorage.getItem('isAuth');
+    const login = localStorage.getItem('login')
 
     const dispatch = useDispatch();
+
+    const onLogOutClick = () => {
+        // debugger
+        dispatch(logoutTC())
+    }
 
     return (
         <div className={css.header}>
@@ -16,13 +22,13 @@ const Header = () => {
                 <h1>ToDoList</h1>
             </div>
             <div className={css.logoutBlock}>
-                {isAuth
+                {(localIsAuth === 'true')
                     ? <div className={css.logout}>
                         <p className={css.logoutText}>
                             {login}
                         </p>
                         <div>
-                            <button className={css.logoutBtn} onClick={() => dispatch(logoutTC())} >LogOut</button>
+                            <button className={css.logoutBtn} onClick={() => onLogOutClick()} >LogOut</button>
                         </div>
 
                     </div>
