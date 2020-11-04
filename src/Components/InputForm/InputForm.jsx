@@ -5,9 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const showErrors = yup.object().shape({
-    taskText: yup.string().required(),
-    taskText: yup.string().max('64'),
-    taskText: yup.string().min('1'),
+    taskText: yup.string().required().max('20').min('1'),
 })
 
 const InputForm = (props) => {
@@ -16,12 +14,13 @@ const InputForm = (props) => {
     });
 
     const onSubmit = (data) => {
-        let newTask = {
-            taskText: data.taskText,
-            isNow: data.isNow,
-            isDone: 'false'
-        }
-        props.useNewTask(newTask);
+        props.onSubmit(data)
+        // let newTask = {
+        //     taskText: data.taskText,
+        //     isNow: data.isNow,
+        //     isDone: 'false'
+        // }
+        // props.useNewTask(newTask);
         setValue('taskText', '')
     }
 

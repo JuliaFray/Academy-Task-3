@@ -1,18 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logoutTC } from '../../Redux/authAction';
 import css from './Header.module.css';
 
 const Header = () => {
 
-    const isAuth = useSelector(state => state.authPage.isAuth);
     const localIsAuth = localStorage.getItem('isAuth');
     const login = localStorage.getItem('login')
 
     const dispatch = useDispatch();
 
     const onLogOutClick = () => {
-        // debugger
         dispatch(logoutTC())
     }
 

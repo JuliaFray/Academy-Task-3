@@ -1,5 +1,3 @@
-import { getFirebase } from "react-redux-firebase";
-
 // consts
 export const SET_LIST = 'SET-LIST';
 
@@ -80,3 +78,19 @@ export function addListsTC(uid, list) {
             .update(updates);
     }
 }
+
+export function changeIsNowListsTC(uid, list) {
+    return (dispatch, getState, getFirebase) => {
+        if (!uid) {
+            uid = localStorage.getItem('uid');
+        }
+        let id = list.id;
+        var updates = {};
+        updates[id] = list
+        return getFirebase()
+            .database()
+            .ref(uid)
+            .child('taskList')
+            .update(updates);
+    }
+};

@@ -12,9 +12,6 @@ export function getTasksTC(uid, listId) {
             uid = localStorage.getItem('uid')
         }
 
-        // console.log(uid)
-        // console.log(listId)
-
         return getFirebase()
             .database()
             .ref(uid)
