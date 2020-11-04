@@ -10,15 +10,14 @@ import css from './Lists.module.css';
 const Lists = () => {
 
     const lists = useSelector(state => state.listPage.lists);
-    // const uid = useSelector(state => state.authPage.userUid);
     const uid = localStorage.getItem('uid');
     const localIsAuth = localStorage.getItem('isAuth');
-    const isAuth = useSelector(state => state.authPage.isAuth);
     const login = useSelector(state => state.authPage.login)
+    const isAuth = useSelector(state => state.authPage.isAuth);
+
     const history = useHistory();
     const dispatch = useDispatch();
 
-    // debugger
     useEffect(() => {
         dispatch(getListsTC(uid));
     }, []);
@@ -31,8 +30,13 @@ const Lists = () => {
         dispatch(deleteListsTC(uid, id))
     }
 
+    useEffect(() => {
+        if (localIsAuth === 'false') {
+            history.push('/')
+        }
+    }, [login]);
+
     if (localIsAuth === 'false') {
-        console.log('push /')
         history.push('/')
     }
 

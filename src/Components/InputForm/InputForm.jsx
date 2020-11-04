@@ -1,9 +1,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import css from './InputForm.module.css';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const showErrors = yup.object().shape({
+    taskText: yup.string().required(),
+    taskText: yup.string().max('64'),
+    taskText: yup.string().min('1'),
+})
 
 const InputForm = (props) => {
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, errors } = useForm({
+        resolver: yupResolver(showErrors)
+    });
 
     const onSubmit = (data) => {
         let newTask = {
@@ -25,7 +35,11 @@ const InputForm = (props) => {
                 <input name='isNow' ref={register} id='isNow' type='checkbox' />
             </div>
 
-            <input className={css.addBtn} type='submit' value='ADD' />
+            {errors.taskText?.message
+                ? <p>{errors.taskText?.message}</p>
+                : <input className={css.addBtn} value="ADD" type='submit' />}
+
+            {/* <input className={css.addBtn} type='submit' value='ADD' /> */}
 
         </form>
     )
