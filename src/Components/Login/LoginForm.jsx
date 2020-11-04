@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
@@ -9,20 +10,14 @@ import { loginTC } from './../../Redux/authAction';
 import css from './LoginForm.module.css';
 
 const showErrors = yup.object().shape({
-    login: yup.string().required(),
-    password: yup.string().required(),
-    login: yup.string().email(),
-    password: yup.string().min('6')
+    login: yup.string().required().email().max('20'),
+    password: yup.string().required().min('6').max('20'),
 })
 
 const LoginForm = () => {
 
-    const isAuth = useSelector(state => state.authPage.isAuth);
-    // const uid = localStorage.getItem('uid');
-    // isAuth = localStorage.getItem('isAuth');
-    const localIsAuth = localStorage.getItem('isAuth')
-
-
+    
+    const isAuth = useSelector(state => state.authPage.isAuth)
 
     const dispatch = useDispatch();
 
@@ -30,20 +25,20 @@ const LoginForm = () => {
         resolver: yupResolver(showErrors)
     });
 
-    // console.log(errors)
-
     const onSubmit = (data) => {
         dispatch(loginTC(data.login, data.password, data.rememberme));
         setValue('login', '');
         setValue('password', '')
     }
 
-    // console.log(localIsAuth)
-    // console.log(isAuth)
+    const localIsAuth = localStorage.getItem('isAuth')
 
-    if (localIsAuth === 'true') {
+    if (isAuth) {
+        debugger
         return <Redirect to={`/taskList`} />
     }
+
+    
 
     return (
         <form className={css.form} onSubmit={handleSubmit(onSubmit)} >
@@ -53,12 +48,6 @@ const LoginForm = () => {
                 <p>{errors.login?.message}</p>
                 <input name='password' ref={register} className={css.text} type='password' placeholder='Enter password' />
                 <p>{errors.password?.message}</p>
-
-                {/* <div className={css.checkbox}>
-                    <label for='rememberme'>Remember me</label>
-                    <input name='rememberme' ref={register} className={css.check}
-                        type='checkbox' id='rememberme' />
-                </div> */}
 
                 <input className={css.btn} type='submit' value='Login' />
 

@@ -5,7 +5,7 @@ import { SET_IS_AUTH, SET_USER_DATA, setUserData } from './authAction';
 let initialState = {
     payload: setUserData.SET_USER_DATA,
     login: '',
-    isAuth: setUserData.SET_IS_AUTH,
+    isAuth: false,
     userUid: ''
 };
 
@@ -19,11 +19,11 @@ const authReducer = (state = initialState, action) => {
                 ...action.payload
             })
 
-        case SET_IS_AUTH:
-            return Object.assign({}, state, {
-                ...state,
-                isAuth : action.isAuth
-            })
+        // case SET_IS_AUTH:
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         isAuth : action.isAuth
+        //     })
              
         default:
             return state

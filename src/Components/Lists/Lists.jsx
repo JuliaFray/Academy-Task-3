@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import InputFormList from '../InputFormList/InputFormList';
-import { addListsTC, deleteListsTC, getListsTC } from './../../Redux/listAction';
+import InputForm from '../InputForm/InputForm';
+import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listAction';
 import List from './../List/List';
 import css from './Lists.module.css';
 
@@ -12,8 +12,9 @@ const Lists = () => {
     const lists = useSelector(state => state.listPage.lists);
     const uid = localStorage.getItem('uid');
     const localIsAuth = localStorage.getItem('isAuth');
-    const login = useSelector(state => state.authPage.login)
+    const login = useSelector(state => state.authPage.login);
     const isAuth = useSelector(state => state.authPage.isAuth);
+    // const login = localStorage.getItem('login')
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -22,21 +23,24 @@ const Lists = () => {
         dispatch(getListsTC(uid));
     }, []);
 
-    function useNewList(list) {
-        dispatch(addListsTC(uid, list))
-    };
-
     function useDeleteList(id) {
         dispatch(deleteListsTC(uid, id))
     }
 
-    useEffect(() => {
-        if (localIsAuth === 'false') {
-            history.push('/')
-        }
-    }, [login]);
+    function useChangeIsNow(list) {
+        let newIsNow = !list.isNow
+        list.isNow = newIsNow;
+        dispatch(updateListsTC(uid, list))
+    }
 
-    if (localIsAuth === 'false') {
+    // useEffect(() => {
+    //     debugger
+    //     if (localIsAuth === 'false' && isAuth) {
+    //         history.push('/')
+    //     }
+    // }, [login]);
+
+    if (!isAuth) {
         history.push('/')
     }
 
@@ -47,6 +51,15 @@ const Lists = () => {
         listsArray = []
     }
 
+    const onSubmit = (data) => {
+        let newTask = {
+            taskListName: data.taskText,
+            isNow: data.isNow
+        }
+        dispatch(addListsTC(uid, newTask))
+    }
+
+
     return (
         <div className={css.allTasksWrapper}>
             {
@@ -55,13 +68,15 @@ const Lists = () => {
                         <div className={css.header}>
                             <h2 className={css.headerText}>All Tasks</h2>
                             <div className={css.inputForm}>
-                                <InputFormList useNewTask={useNewList} />
+                                <InputForm onSubmit = {onSubmit}
+
+                                />
                             </div>
                         </div>
                         <div className={css.tasks}>
                             {listsArray.length > 1
-                                ? listsArray.map(l => <List list={l} deleteList={useDeleteList}  uid={uid} />)
-                                : <List list={listsArray[0]} deleteList={useDeleteList} uid={uid} />
+                                ? listsArray.map(l => <List list={l} changeIsNow = {useChangeIsNow} deleteList={useDeleteList}  uid={uid} />)
+                                : <List list={listsArray[0]} changeIsNow = {useChangeIsNow} deleteList={useDeleteList} uid={uid} />
                             }
                         </div>
                     </div>
@@ -69,7 +84,7 @@ const Lists = () => {
                         <div className={css.header}>
                             <h2 >All Tasks: 0</h2>
                             <div className={css.inputForm}>
-                                <InputFormList useNewTask={useNewList} />
+                                <InputForm onSubmit = {onSubmit}/>
                             </div>
                         </div>
                     </div>

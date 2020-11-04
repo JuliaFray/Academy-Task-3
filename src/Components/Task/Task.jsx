@@ -7,14 +7,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 const showErrors = yup.object().shape({
-    newText: yup.string().required(),
-    newText: yup.string().max('64'),
-    newText: yup.string().min('1'),
+    newText: yup.string().required().min('1').max('10'),
 })
 
 const Task = (props) => {
+    
 
     let task = props.task;
+    // console.log(task)
 
     const { register, handleSubmit, errors } = useForm({
         resolver: yupResolver(showErrors),
@@ -34,12 +34,6 @@ const Task = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false);
-
-        
-        
-        
-        // task.taskText = newTaskName;
-        
     };
 
     const onTaskNameChange = ({ target: { value } }) => {
@@ -52,20 +46,20 @@ const Task = (props) => {
         let path = window.location.href;
         path = path.split('/');
         let listId = path[path.length - 1];
-        
+
         if (!newTaskName) {
             task.taskText = data.newText;
         } else {
             task.taskText = newTaskName;
         }
-
+        debugger
         dispatch(updateTasksTC(props.uid, listId, task))
         // dispatch(updateListsTC(props.uid, list))
     }
 
-    
 
-    if (task.isDone === 'false') {
+
+    if (!task.isDone) {
         if (task.isNow) {
             var style = css.high
         } else if (!task.isNow) {
@@ -84,19 +78,33 @@ const Task = (props) => {
     };
 
     return (
-        <form onBlur = {handleSubmit(onBlur)}>
+        <div>
             {!editMode
                 ? <div className={`${css.task} + ${style}`}>
-                    <div className={css.text}>{task.taskText}</div>
-                    <button className={css.checkBtn} onClick={() => activateEditMode()}>Rename</button>
+                    <div className={`${css.text}`}>{task.taskText}</div>
                     {task.isDone === 'true'
-                        ? <button onClick={() => props.deleteTask(task.id)} className={css.deleteBtn}>Delete</button>
-                        : <button onClick={() => changeTask(props.task)} className={css.checkBtn}>Check done</button>
+                        ? <div className={css.btns}>
+                            <button className={css.checkBtn} onClick={() => activateEditMode()}>Rename</button>
+
+                            <button className={css.changeBtn} onClick={() => props.changeIsDone(task)}>Check Undone</button>
+
+                            <button onClick={() => props.deleteTask(task.id)} className={css.deleteBtn}>Delete</button>
+                        </div>
+
+                        : <div className={css.btns}>
+                            <button className={css.checkBtn} onClick={() => activateEditMode()}>Rename</button>
+
+                            <button className={css.changeBtn} onClick={() => props.changeIsNow(task)}>Change Priority</button>
+
+                            <button onClick={() => changeTask(props.task)} className={css.checkBtn}>Check done</button>
+                        </div>
                     }
                 </div>
-                : <input ref = {register} name = 'newText' className={css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />
+                : <form onBlur={handleSubmit(onBlur)}>
+                    <input ref={register} name='newText' className={css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />
+                </form>
             }
-        </form>
+        </div>
     )
 };
 

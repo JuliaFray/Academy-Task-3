@@ -1,18 +1,18 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logoutTC } from '../../Redux/authAction';
 import css from './Header.module.css';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
 
-    const isAuth = useSelector(state => state.authPage.isAuth);
     const localIsAuth = localStorage.getItem('isAuth');
+    const isAuth = useSelector(state => state.authPage.isAuth);
     const login = localStorage.getItem('login')
 
     const dispatch = useDispatch();
 
     const onLogOutClick = () => {
-        // debugger
         dispatch(logoutTC())
     }
 
@@ -22,7 +22,7 @@ const Header = () => {
                 <h1>ToDoList</h1>
             </div>
             <div className={css.logoutBlock}>
-                {(localIsAuth === 'true')
+                {isAuth
                     ? <div className={css.logout}>
                         <p className={css.logoutText}>
                             {login}
