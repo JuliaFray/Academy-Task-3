@@ -2,8 +2,26 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateTasksTC } from './../../Redux/taskAction';
 import css from './Task.module.css';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
+const showErrors = yup.object().shape({
+    newText: yup.string().required(),
+    newText: yup.string().max('64'),
+    newText: yup.string().min('1'),
+})
 
 const Task = (props) => {
+
+    let task = props.task;
+
+    const { register, handleSubmit, errors } = useForm({
+        resolver: yupResolver(showErrors),
+        defaultValues: {
+            newText: task.taskText
+        }
+    })
 
     const [editMode, setEditMode] = useState(false);
     const [newTaskName, setNewTaskName] = useState(props.taskName);
@@ -17,20 +35,35 @@ const Task = (props) => {
     const deactivateEditMode = () => {
         setEditMode(false);
 
-        let path = window.location.href;
-        path = path.split('/');
-        let listId = path[path.length - 1];
         
-        let task = props.task
-        task.taskText = newTaskName;
-        dispatch(updateTasksTC(props.uid, listId, task))
+        
+        
+        // task.taskText = newTaskName;
+        
     };
 
     const onTaskNameChange = ({ target: { value } }) => {
         setNewTaskName(value)
+    };
+
+    const onBlur = (data) => {
+        let task = props.task;
+
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        
+        if (!newTaskName) {
+            task.taskText = data.newText;
+        } else {
+            task.taskText = newTaskName;
+        }
+
+        dispatch(updateTasksTC(props.uid, listId, task))
+        // dispatch(updateListsTC(props.uid, list))
     }
 
-    let task = props.task;
+    
 
     if (task.isDone === 'false') {
         if (task.isNow) {
@@ -51,7 +84,7 @@ const Task = (props) => {
     };
 
     return (
-        <div>
+        <form onBlur = {handleSubmit(onBlur)}>
             {!editMode
                 ? <div className={`${css.task} + ${style}`}>
                     <div className={css.text}>{task.taskText}</div>
@@ -61,9 +94,9 @@ const Task = (props) => {
                         : <button onClick={() => changeTask(props.task)} className={css.checkBtn}>Check done</button>
                     }
                 </div>
-                : <input className={css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />
+                : <input ref = {register} name = 'newText' className={css.newName} onChange={onTaskNameChange} autoFocus={true} value={newTaskName} onBlur={deactivateEditMode} />
             }
-        </div>
+        </form>
     )
 };
 

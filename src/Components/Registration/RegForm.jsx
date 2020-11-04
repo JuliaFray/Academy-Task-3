@@ -9,8 +9,10 @@ import css from './RegForm.module.css';
 import { NavLink } from 'react-router-dom';
 
 const showErrors = yup.object().shape({
-    login: yup.string().required(),
+    llogin: yup.string().required(),
     password: yup.string().required(),
+    login: yup.string().email(),
+    password: yup.string().min('6')
 })
 
 const LoginForm = () => {

@@ -14,16 +14,13 @@ const AllTasks = () => {
     const isAuth = useSelector(state => state.authPage.isAuth);
     const uid = useSelector(state => state.authPage.userUid);
     const localIsAuth = localStorage.getItem('isAuth');
-    // const uid = localStorage.getItem('uid')
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         let path = window.location.href;
-        // console.log(path)
         path = path.split('/');
         let listId = path[path.length - 1];
-        // localStorage.setItem('listId', listId)
        dispatch( getTasksTC(uid, listId));
     }, []);
 
