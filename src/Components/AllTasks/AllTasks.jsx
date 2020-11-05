@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { setIsAuth } from '../../Redux/authAction';
 import { addTasksTC, checkTasksTC, deleteTasksTC, getTasksTC,updateTasksTC } from '../../Redux/taskAction';
 import InputForm from '../InputForm/InputForm';
 import Task from './../Task/Task';
@@ -46,7 +47,6 @@ const AllTasks = () => {
     }
 
     function useChangeIsDone(task) {
-        // console.log(task.isDone)
 
         let newIsDone = !task.isDone
         task.isDone = newIsDone;
@@ -60,8 +60,15 @@ const AllTasks = () => {
     }
 
     const history = useHistory();
+    const isAuth = useSelector(state => state.authPage.isAuth);
 
-    if (localIsAuth === 'false') {
+    useEffect(() => {
+        if (localIsAuth === 'true') {
+            dispatch(setIsAuth(true))
+        }
+    }, [isAuth]);
+
+    if (!isAuth) {
         history.push('/')
     }
 

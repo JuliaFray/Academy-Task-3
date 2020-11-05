@@ -32,9 +32,8 @@ function checkCurrentUser(login) {
                 localStorage.setItem('uid', user.uid);
                 localStorage.setItem('isAuth', 'true');
                 localStorage.setItem('login', login)
-                // console.log(localStorage.getItem('uid'));
                 dispatch(setUserData(login, true, user.uid));
-                dispatch(setIsAuth(true))
+                // dispatch(setIsAuth(true))
             }
         }
     }
@@ -42,16 +41,14 @@ function checkCurrentUser(login) {
 
 export function logoutTC() {
     return (dispatch, getState, getFirebase) => {
-        localStorage.setItem('uid', '');
-        localStorage.setItem('isAuth', 'false');
-        localStorage.setItem('login', '')
         return getFirebase()
             .auth()
             .signOut()
             .then(() => {
+                localStorage.setItem('uid', '');
+                localStorage.setItem('isAuth', 'false');
+                localStorage.setItem('login', '')
                 dispatch(setUserData('', false, ''));
-                dispatch(setIsAuth(false))
-                // localStorage.clear()
             })
     }
 }

@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
@@ -15,7 +16,8 @@ const showErrors = yup.object().shape({
 
 const LoginForm = () => {
 
-    const localIsAuth = localStorage.getItem('isAuth')
+    
+    const isAuth = useSelector(state => state.authPage.isAuth)
 
     const dispatch = useDispatch();
 
@@ -29,9 +31,13 @@ const LoginForm = () => {
         setValue('password', '')
     }
 
-    if (localIsAuth === 'true') {
+    const localIsAuth = localStorage.getItem('isAuth')
+
+    if (isAuth || localIsAuth === 'true') {
         return <Redirect to={`/taskList`} />
     }
+
+    
 
     return (
         <form className={css.form} onSubmit={handleSubmit(onSubmit)} >

@@ -2,10 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutTC } from '../../Redux/authAction';
 import css from './Header.module.css';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
 
     const localIsAuth = localStorage.getItem('isAuth');
+    const isAuth = useSelector(state => state.authPage.isAuth);
     const login = localStorage.getItem('login')
 
     const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const Header = () => {
                 <h1>ToDoList</h1>
             </div>
             <div className={css.logoutBlock}>
-                {(localIsAuth === 'true')
+                {isAuth || localIsAuth === "true"
                     ? <div className={css.logout}>
                         <p className={css.logoutText}>
                             {login}

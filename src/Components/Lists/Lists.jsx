@@ -5,6 +5,7 @@ import InputForm from '../InputForm/InputForm';
 import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listAction';
 import List from './../List/List';
 import css from './Lists.module.css';
+import { setIsAuth } from '../../Redux/authAction';
 
 
 const Lists = () => {
@@ -12,7 +13,7 @@ const Lists = () => {
     const lists = useSelector(state => state.listPage.lists);
     const uid = localStorage.getItem('uid');
     const localIsAuth = localStorage.getItem('isAuth');
-    const login = useSelector(state => state.authPage.login)
+    const isAuth = useSelector(state => state.authPage.isAuth);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -32,12 +33,12 @@ const Lists = () => {
     }
 
     useEffect(() => {
-        if (localIsAuth === 'false') {
-            history.push('/')
+        if (localIsAuth === 'true') {
+            dispatch(setIsAuth(true))
         }
-    }, [login]);
+    }, [isAuth]);
 
-    if (localIsAuth === 'false') {
+    if (!isAuth) {
         history.push('/')
     }
 
