@@ -9,10 +9,8 @@ import { regTC } from '../../Redux/authAction';
 import css from './RegForm.module.css';
 
 const showErrors = yup.object().shape({
-    llogin: yup.string().required(),
-    password: yup.string().required(),
-    login: yup.string().email(),
-    password: yup.string().min('6')
+    login: yup.string().required().email().max('20'),
+    password: yup.string().required().min('6').max('20'),
 })
 
 const LoginForm = () => {
@@ -26,13 +24,18 @@ const LoginForm = () => {
     });
 
     const onSubmit = (data) => {
+        
         dispatch(regTC(data.login, data.password));
-        setValue('login', '');
-        setValue('password', '')
+        // setValue('login', '');
+        // setValue('password', '')
+        debugger
     }
 
-    if (isAuth) {
-        return <Redirect to={'/taskList'} />
+    const localIsAuth = localStorage.getItem('isAuth')
+
+    if (isAuth || localIsAuth === 'true') {
+        debugger
+        return <Redirect to={`/taskList`} />
     }
 
     return (
