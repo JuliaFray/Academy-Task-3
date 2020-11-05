@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/Academy-Task-3/static/css/main.b2e56f7c.chunk.css",
-    "main.js": "/Academy-Task-3/static/js/main.8eb30d02.chunk.js",
-    "main.js.map": "/Academy-Task-3/static/js/main.8eb30d02.chunk.js.map",
+    "main.js": "/Academy-Task-3/static/js/main.e06e890b.chunk.js",
+    "main.js.map": "/Academy-Task-3/static/js/main.e06e890b.chunk.js.map",
     "runtime-main.js": "/Academy-Task-3/static/js/runtime-main.e62b4812.js",
     "runtime-main.js.map": "/Academy-Task-3/static/js/runtime-main.e62b4812.js.map",
-    "static/js/2.1f725c9f.chunk.js": "/Academy-Task-3/static/js/2.1f725c9f.chunk.js",
-    "static/js/2.1f725c9f.chunk.js.map": "/Academy-Task-3/static/js/2.1f725c9f.chunk.js.map",
+    "static/js/2.8837db11.chunk.js": "/Academy-Task-3/static/js/2.8837db11.chunk.js",
+    "static/js/2.8837db11.chunk.js.map": "/Academy-Task-3/static/js/2.8837db11.chunk.js.map",
     "index.html": "/Academy-Task-3/index.html",
-    "precache-manifest.7b8ea43ff5b923881fd631d817a89d20.js": "/Academy-Task-3/precache-manifest.7b8ea43ff5b923881fd631d817a89d20.js",
+    "precache-manifest.17c9776dfbe3d19bf7c61d4498658991.js": "/Academy-Task-3/precache-manifest.17c9776dfbe3d19bf7c61d4498658991.js",
     "service-worker.js": "/Academy-Task-3/service-worker.js",
     "static/css/main.b2e56f7c.chunk.css.map": "/Academy-Task-3/static/css/main.b2e56f7c.chunk.css.map",
-    "static/js/2.1f725c9f.chunk.js.LICENSE.txt": "/Academy-Task-3/static/js/2.1f725c9f.chunk.js.LICENSE.txt"
+    "static/js/2.8837db11.chunk.js.LICENSE.txt": "/Academy-Task-3/static/js/2.8837db11.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e62b4812.js",
-    "static/js/2.1f725c9f.chunk.js",
+    "static/js/2.8837db11.chunk.js",
     "static/css/main.b2e56f7c.chunk.css",
-    "static/js/main.8eb30d02.chunk.js"
+    "static/js/main.e06e890b.chunk.js"
   ]
 }

@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ce7e3e8a5a916693667d5fef79006ac0",
+    "revision": "65846a09f2d7733062dcd80e54e23279",
     "url": "/Academy-Task-3/index.html"
   },
   {
-    "revision": "48a427c9abba346bc4fe",
+    "revision": "828ca5ae62a7c9afceba",
     "url": "/Academy-Task-3/static/css/main.b2e56f7c.chunk.css"
   },
   {
-    "revision": "a79672652d5e78619284",
-    "url": "/Academy-Task-3/static/js/2.1f725c9f.chunk.js"
+    "revision": "a2b3220df9e69ebc5162",
+    "url": "/Academy-Task-3/static/js/2.8837db11.chunk.js"
   },
   {
     "revision": "4224b32d50aca7d0b4f248bf0384ed4f",
-    "url": "/Academy-Task-3/static/js/2.1f725c9f.chunk.js.LICENSE.txt"
+    "url": "/Academy-Task-3/static/js/2.8837db11.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "48a427c9abba346bc4fe",
-    "url": "/Academy-Task-3/static/js/main.8eb30d02.chunk.js"
+    "revision": "828ca5ae62a7c9afceba",
+    "url": "/Academy-Task-3/static/js/main.e06e890b.chunk.js"
   },
   {
     "revision": "a6aba5dbe3bd5cc9933f",
