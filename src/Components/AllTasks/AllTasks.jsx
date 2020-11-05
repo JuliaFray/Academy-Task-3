@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { setIsAuth } from '../../Redux/authAction';
-import { addTasksTC, checkTasksTC, deleteTasksTC, getTasksTC,updateTasksTC } from '../../Redux/taskAction';
+import { addTasksTC, checkTasksTC, deleteTasksTC, getTasksTC,sortTasksByIsDone,updateTasksTC } from '../../Redux/taskAction';
 import InputForm from '../InputForm/InputForm';
 import Task from './../Task/Task';
 import css from './AllTasks.module.css';
+import Filter from '../Filter/Filter';
+import { sortTasksByIsNow } from '../../Redux/taskAction';
 
 
 const AllTasks = () => {
@@ -22,6 +24,7 @@ const AllTasks = () => {
         path = path.split('/');
         let listId = path[path.length - 1];
         dispatch(getTasksTC(uid, listId));
+        localStorage.setItem('listId', listId)
     }, []);
 
     function useDeleteTask(id) {
@@ -92,17 +95,35 @@ const AllTasks = () => {
 
     }
 
+    function useIsNowSort() {
+        dispatch(sortTasksByIsNow(tasksArray))
+    }
+
+    function useIsDoneSort() {
+        dispatch(sortTasksByIsDone(tasksArray))
+    }
+
+    function useShowAll() {
+        let path = window.location.href;
+        path = path.split('/');
+        let listId = path[path.length - 1];
+        dispatch(getTasksTC(uid, listId));
+    }
+
     return (
         <div className={css.allTasksWrapper}>
             {tasksArray.length > 0
                 ? <div className={css.allTasks}>
                     <div className={css.header}>
-                        <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => task.isDone === 'false').length}
+                        <h2 className={css.headerText}>Active Tasks: {tasksArray.filter(task => !task.isDone).length}
                             <NavLink className={css.headerLink} to={'/taskList'}>back</NavLink> </h2>
 
                         <div className={css.inputForm}>
                             <InputForm onSubmit={onSubmit} />
                         </div>
+
+                        <Filter isList = {false} isNowSort = {useIsNowSort} 
+                            isDoneSort = {useIsDoneSort} showAll = {useShowAll} />
                     </div>
 
                     <div className={css.tasks}>

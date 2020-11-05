@@ -14,6 +14,7 @@ const Task = (props) => {
     
 
     let task = props.task;
+    
     // console.log(task)
 
     const { register, handleSubmit, errors } = useForm({

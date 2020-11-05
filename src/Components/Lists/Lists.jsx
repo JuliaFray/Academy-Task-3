@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import InputForm from '../InputForm/InputForm';
-import { addListsTC, deleteListsTC, getListsTC, updateListsTC } from './../../Redux/listAction';
+import { addListsTC, deleteListsTC, getListsTC, sortByCountTC, sortListsByIsNow, updateListsTC } from './../../Redux/listAction';
 import List from './../List/List';
 import css from './Lists.module.css';
 import { setIsAuth } from '../../Redux/authAction';
+import Filter from '../Filter/Filter';
 
 
 const Lists = () => {
@@ -22,6 +23,12 @@ const Lists = () => {
         dispatch(getListsTC(uid));
     }, []);
 
+    useEffect(() => {
+        if (localIsAuth === 'true') {
+            dispatch(setIsAuth(true))
+        }
+    }, [isAuth]);
+
     function useDeleteList(id) {
         dispatch(deleteListsTC(uid, id))
     }
@@ -31,12 +38,6 @@ const Lists = () => {
         list.isNow = newIsNow;
         dispatch(updateListsTC(uid, list))
     }
-
-    useEffect(() => {
-        if (localIsAuth === 'true') {
-            dispatch(setIsAuth(true))
-        }
-    }, [isAuth]);
 
     if (!isAuth) {
         history.push('/')
@@ -57,6 +58,17 @@ const Lists = () => {
         dispatch(addListsTC(uid, newTask))
     }
 
+    function useIsNowSort() {
+        dispatch(sortListsByIsNow(listsArray))
+    }
+
+    function useCountSort() {
+        dispatch(sortByCountTC(uid))
+    }
+
+    function useShowAll() {
+        dispatch(getListsTC(uid));
+    }
 
     return (
         <div className={css.allTasksWrapper}>
@@ -66,10 +78,10 @@ const Lists = () => {
                         <div className={css.header}>
                             <h2 className={css.headerText}>All Tasks</h2>
                             <div className={css.inputForm}>
-                                <InputForm onSubmit = {onSubmit}
-
-                                />
+                                <InputForm onSubmit = {onSubmit} />
                             </div>
+                            <Filter isList = {true} isNowSort = {useIsNowSort} 
+                            countSort = {useCountSort} showAll = {useShowAll} />
                         </div>
                         <div className={css.tasks}>
                             {listsArray.length > 1
