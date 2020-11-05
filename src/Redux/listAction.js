@@ -1,3 +1,4 @@
+
 // consts
 export const SET_LIST = 'SET-LIST';
 
@@ -7,8 +8,6 @@ export const setLists = (lists) => ({ type: SET_LIST, lists });
 // thunk creators
 export function getListsTC(uid) {
     return (dispatch, getState, getFirebase) => {
-        // console.log(uid)
-        // console.log(localStorage.getItem('uid'))
 
         if (!uid) {
             uid = localStorage.getItem('uid');
@@ -46,6 +45,7 @@ export function updateListsTC(uid, list) {
         let id = list.id;
         var updates = {};
         updates[id] = list
+        debugger
         return getFirebase()
             .database()
             .ref(uid)

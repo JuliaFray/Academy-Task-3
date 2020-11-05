@@ -22,7 +22,7 @@ const Header = () => {
                 <h1>ToDoList</h1>
             </div>
             <div className={css.logoutBlock}>
-                {isAuth
+                {isAuth || localIsAuth === "true"
                     ? <div className={css.logout}>
                         <p className={css.logoutText}>
                             {login}

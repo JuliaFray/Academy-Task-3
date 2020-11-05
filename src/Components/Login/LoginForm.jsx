@@ -33,8 +33,7 @@ const LoginForm = () => {
 
     const localIsAuth = localStorage.getItem('isAuth')
 
-    if (isAuth) {
-        debugger
+    if (isAuth || localIsAuth === 'true') {
         return <Redirect to={`/taskList`} />
     }
 

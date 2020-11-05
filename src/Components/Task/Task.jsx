@@ -52,9 +52,7 @@ const Task = (props) => {
         } else {
             task.taskText = newTaskName;
         }
-        debugger
         dispatch(updateTasksTC(props.uid, listId, task))
-        // dispatch(updateListsTC(props.uid, list))
     }
 
 
