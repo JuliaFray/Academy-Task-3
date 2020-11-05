@@ -1,8 +1,12 @@
 // consts
 export const SET_TASK = 'SET-TASK';
+export const SORT_BY_ISNOW = 'SORT-BY-ISNOW';
+export const SORT_BY_ISDONE = 'SORT-BY-ISDONE';
 
 // action creators
 export const setTasks = (tasks) => ({ type: SET_TASK, tasks });
+export const sortTasksByIsNow = (tasks) => ({type: SORT_BY_ISNOW, tasks});
+export const sortTasksByIsDone = (tasks) => ({type: SORT_BY_ISDONE, tasks});
 
 // thunk creators
 export function getTasksTC(uid, listId) {
@@ -10,6 +14,10 @@ export function getTasksTC(uid, listId) {
 
         if (!uid) {
             uid = localStorage.getItem('uid')
+        }
+
+        if (!listId) {
+            listId = localStorage.getItem('listId')
         }
 
         return getFirebase()

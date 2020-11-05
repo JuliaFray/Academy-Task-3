@@ -1,5 +1,5 @@
 // action
-import { SET_LIST, setLists } from './listAction'
+import { SORT_LISTS_BY_COUNT, SET_LIST, setLists } from './listAction'
 
 // initial state
 const initialState = {
@@ -15,7 +15,17 @@ const listReducer = (state = initialState, action) => {
                 ...state,
                 lists: action.lists
             })
-            
+
+        case SORT_LISTS_BY_COUNT:
+            debugger
+            let value = action.lists;
+            let filteredLists = value.filter(task => task.isNow)
+
+            return Object.assign({}, state, {
+                ...state,
+                lists: filteredLists
+            })
+
         default:
             return state;
     }

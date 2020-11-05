@@ -1,5 +1,5 @@
 //action
-import { SET_TASK, setTasks } from './taskAction'
+import { SORT_BY_ISDONE, SORT_BY_ISNOW, SET_TASK, setTasks } from './taskAction'
 
 // initial state
 const initialState = {
@@ -13,6 +13,24 @@ const taskReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 ...state,
                 tasks: action.tasks.task
+            })
+
+        case SORT_BY_ISNOW:
+            let value = action.tasks;
+            let filteredTasks = value.filter(task => task.isNow)
+
+            return Object.assign({}, state, {
+                ...state,
+                tasks: filteredTasks
+            })
+
+        case SORT_BY_ISDONE:
+            let valueIsDone = action.tasks;
+            let filteredTasksIsDone = valueIsDone.filter(task => !task.isDone)
+
+            return Object.assign({}, state, {
+                ...state,
+                tasks: filteredTasksIsDone
             })
 
         default:
