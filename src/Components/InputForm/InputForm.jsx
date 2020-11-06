@@ -15,12 +15,6 @@ const InputForm = (props) => {
 
     const onSubmit = (data) => {
         props.onSubmit(data)
-        // let newTask = {
-        //     taskText: data.taskText,
-        //     isNow: data.isNow,
-        //     isDone: 'false'
-        // }
-        // props.useNewTask(newTask);
         setValue('taskText', '')
     }
 

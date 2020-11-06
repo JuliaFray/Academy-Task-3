@@ -71,7 +71,6 @@ export function updateListsTC(uid, list) {
         let id = list.id;
         var updates = {};
         updates[id] = list
-        debugger
         return getFirebase()
             .database()
             .ref(uid)

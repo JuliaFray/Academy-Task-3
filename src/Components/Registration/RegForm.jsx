@@ -24,11 +24,7 @@ const LoginForm = () => {
     });
 
     const onSubmit = (data) => {
-        
         dispatch(regTC(data.login, data.password));
-        // setValue('login', '');
-        // setValue('password', '')
-        debugger
     }
 
     const localIsAuth = localStorage.getItem('isAuth')
