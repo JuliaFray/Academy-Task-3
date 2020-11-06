@@ -17,7 +17,6 @@ const listReducer = (state = initialState, action) => {
             })
 
         case SORT_LISTS_BY_COUNT:
-            debugger
             let value = action.lists;
             let filteredLists = value.filter(task => task.isNow)
 

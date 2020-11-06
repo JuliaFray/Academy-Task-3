@@ -55,7 +55,6 @@ export function logoutTC() {
 
 export function regTC(login, password) {
     return (dispatch, getState, getFirebase) => {
-        debugger
         return getFirebase()
             .auth()
             .createUserWithEmailAndPassword(login, password)
